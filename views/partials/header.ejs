@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<div class="header-grid">
+   <div class="top" id="logotype" onclick="location.href='/'">
+   </div>
+
+   <div class="top" id="headerdiv">
+       <div class="text" id="headerdivtext">
+           Beaver's Dam (Vulnerable) Website
+       </div>
+   </div>
+
+   <div class="top" id="headerbuttons">
+    <% if (session && session.username) { %>
+        <p>Welcome, <%= session.username %>!</p>
+        <form action="/logout" method="POST" style="display:inline;">
+            <button type="submit">Logout</button>
+        </form>
+    <% } else { %>
+        <form action="/login" method="POST" id="loginForm" class="login-form">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    <% } %>
+   </div>
+</div>

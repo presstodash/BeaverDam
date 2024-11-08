@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <meta name="description" content="Beaver's Dam Vulnerable Website">
+   <meta name="author" content="Filip B.">
+   <meta name="attributions" content="Freepik, Pexels, Pixabay, Flaticon, DALL-E2">
+   <title>Beaver's Dam Vulnerable Website</title>
+   <link rel="stylesheet" type="text/css" href="/styles/style.css" />
+   <link rel="icon" href="/images/beaverdamicon.png">
+</head>
+
+<body id="wrapper">
+
+   <%- include('partials/header') %>
+
+   <div id="middlewrapper">
+      
+      <div id="sqlinjectionbox">
+         <p>
+            SQL Injection demonstration - To demonstrate the lack of security, enter this next line:
+            <span class="highlight">' OR '1'='1</span>
+         </p>
+         <p>
+            Union Attack demonstration - To retrieve additional sensitive information, enter this next line:
+            <span class="highlight">' UNION SELECT username, password FROM users --</span>
+         </p>
+         <form action="/lookup_user" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+ 
+            <div>
+                <input type="checkbox" id="secure_mode" name="secure_mode">
+                <label for="secure_mode">Enable Secure Mode (Prevent SQL Injection)</label>
+            </div>
+
+            
+            <% if (csrfToken) { %>
+               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <% } %>
+            <button type="submit">Lookup User</button>
+         </form>
+         
+         <% if (typeof users === 'string') { %>
+            <p class="error"><%= users %></p>
+         <% } else if (users && users.length > 0) { %>
+            <div id="searchResults">
+               <h2>Search Results:</h2>
+               <ul>
+                  <% users.forEach(user => { %>
+                     <li>
+                         <% Object.keys(user).forEach(key => { %>
+                             <strong><%= key %>:</strong> <%= user[key] %> |
+                         <% }) %>
+                     </li>
+                 <% }) %>
+               </ul>
+            </div>
+         <% } else if (users) { %>
+            <p>No users found with that username.</p>
+         <% } %>
+      </div>
+
+      <div id="csrfvulnerabilitybox">
+         <% if (session && session.userId) { %>
+             <p>Cross-Site Request Forgery Vulnerability demonstration area - 
+                 <a href="/csrf_attack.html" target="_blank" style="color: #007bff; text-decoration: underline;">
+                     Click here to see the CSRF attack in action
+                 </a>
+             </p>
+     
+            <form action="/toggle_secure_mode" method="POST">
+               <input type="checkbox" id="secure_mode" name="secure_mode" 
+                  <%= session.secureMode ? 'checked' : '' %> 
+                  onchange="this.form.submit()">
+               <label for="secure_mode">Enable Secure Mode (CSRF Protection)</label>
+
+               <% if (csrfToken) { %>
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+               <% } %>
+            </form>
+     
+             <div id="emailChangeBox">
+                 <h3>Change Your Email</h3>
+                 <form action="/change_email" method="POST">
+                     <label for="new_email">New Email:</label>
+                     <input type="email" id="new_email" name="new_email" required>
+     
+                     <% if (csrfToken) { %>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                     <% } %>
+     
+                     <button type="submit">Update Email</button>
+                 </form>
+             </div>
+     
+             <% if (csrfMessage) { %>
+                 <p style="color: blueviolet; font-weight: bold;"><%= csrfMessage %></p>
+             <% } %>
+             
+         <% } else { %>
+             <p>Cross-Site Request Forgery Vulnerability demonstration area - User not logged in. Cannot access demonstration.</p>
+         <% } %>
+     </div>
+
+   </div>
+
+</body>
+
+</html>
