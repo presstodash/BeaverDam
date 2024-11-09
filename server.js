@@ -31,10 +31,11 @@ app.use(express.urlencoded({ extended: true }));
 const csrfProtection = csurf();
 
 app.use((req, res, next) => {
-    if (req.path === '/logout' || !req.session.secureMode || !req.session.userId) {
-        return next();
+    if (req.session.userId && req.session.secureMode && req.path !== '/login' && req.path !== '/logout') {
+        csrfProtection(req, res, next);
+    } else {
+        next();
     }
-    csrfProtection(req, res, next);
 });
 
 app.use((req, res, next) => {
