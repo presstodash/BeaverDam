@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-
+    console.log("Login attempt for:", username);
     try {
         const query = 'SELECT * FROM users_secure WHERE username = $1';
         const result = await db.query(query, [username]);
@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
 
         const user = result.rows[0];
         const passwordMatch = await bcrypt.compare(password, user.hashed_password);
-
+        console.log("Password match result:", passwordMatch);
         if (passwordMatch) {
             req.session.userId = user.id;
             req.session.username = user.username;
