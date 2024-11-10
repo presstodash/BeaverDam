@@ -18,10 +18,10 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'very-secret-randomly-generated-strong-key',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === 'production',
-        httpOnly: true,
+    cookie: { secure: false,
+        httpOnly: false,
         maxAge: 24 * 60 * 60 * 1000,
-        sameSite: 'None'
+        sameSite: 'Lax'
     }
 }));
 
