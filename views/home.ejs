@@ -36,6 +36,10 @@
                 <label for="secure_mode">Enable Secure Mode (Prevent SQL Injection)</label>
             </div>
 
+            <div>
+               <input type="checkbox" id="use_secure_table" name="use_secure_table">
+               <label for="use_secure_table">Use Secure Table</label>
+            </div>
             
             <% if (csrfToken) { %>
                <input type="hidden" name="_csrf" value="<%= csrfToken %>">

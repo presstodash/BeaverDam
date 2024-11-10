@@ -60,6 +60,9 @@ router.post('/login', async (req, res) => {
 router.post('/lookup_user', (req, res) => {
     let { username } = req.body;
     const secure_mode = req.body.secure_mode === 'on';
+    const use_secure_table = req.body.use_secure_table === 'on';
+
+    const table = use_secure_table ? 'users_secure' : 'users';
 
     if (secure_mode) {
         let newusername = username.replace(/[^a-zA-Z0-9]/g, '');
@@ -69,7 +72,7 @@ router.post('/lookup_user', (req, res) => {
                 csrfMessage: null
             });
         }
-        const query = 'SELECT username, email FROM users WHERE username = $1';
+        const query = 'SELECT username, email FROM ${table} WHERE username = $1';
         db.query(query, [username], (err, result) => {
             if (err) {
                 console.error('Error while searching for user.', err);
@@ -81,7 +84,7 @@ router.post('/lookup_user', (req, res) => {
             });
         });
     } else {
-        const query = `SELECT username, email FROM users WHERE username = '${username}'`;
+        const query = `SELECT username, email FROM ${table} WHERE username = '${username}'`;
         db.query(query, (err, result) => {
             if (err) {
                 console.error('Error while searching for user.', err);
