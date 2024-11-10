@@ -72,7 +72,7 @@ router.post('/lookup_user', (req, res) => {
                 csrfMessage: null
             });
         }
-        const query = 'SELECT username, email FROM ${table} WHERE username = $1';
+        const query = `SELECT username, email FROM ${table} WHERE username = $1`;
         db.query(query, [username], (err, result) => {
             if (err) {
                 console.error('Error while searching for user.', err);
