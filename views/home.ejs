@@ -26,7 +26,7 @@
          <p>
             Union Attack demonstration - To retrieve additional sensitive information, enter this next line:
             <span class="highlight">' UNION SELECT username, password FROM users --</span>
-            or <span class="highlight">' ' UNION SELECT username, hashed_password FROM users_secure --</span>
+            or <span class="highlight">' UNION SELECT username, hashed_password FROM users_secure --</span>
          </p>
          <form action="/lookup_user" method="POST">
             <label for="username">Username:</label>
