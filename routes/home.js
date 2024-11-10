@@ -62,7 +62,6 @@ router.post('/lookup_user', (req, res) => {
     const secure_mode = req.body.secure_mode === 'on';
     const use_secure_table = req.body.use_secure_table === 'on';
     const table = use_secure_table ? 'users_secure' : 'users';
-    console.log("Use Secure Table:", use_secure_table, "Table:", table);
     if (secure_mode) {
         let newusername = username.replace(/[^a-zA-Z0-9]/g, '');
         if ( newusername != username ) {
