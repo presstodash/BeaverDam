@@ -18,7 +18,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'very-secret-randomly-generated-strong-key',
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === 'production',
+    cookie: { secure: false,
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000,
         sameSite: 'Lax'
