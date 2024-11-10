@@ -36,7 +36,16 @@ router.post('/login', async (req, res) => {
         if (passwordMatch) {
             req.session.userId = user.id;
             req.session.username = user.username;
-            res.redirect('/');
+            console.log("Session data before save:", req.session);
+        
+            req.session.save((err) => {
+                if (err) {
+                    console.error("Error saving session:", err);
+                    return res.status(500).send('Server error');
+                }
+                console.log("Session saved, redirecting...");
+                res.redirect('/');
+            });
         } else {
             res.render('home', { 
                 users: null, 
